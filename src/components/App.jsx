@@ -6,7 +6,20 @@ import exampleVideoData from '../data/exampleVideoData.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {exampleVideoData};
+    this.state = {exampleVideoData, currentVideo: exampleVideoData[0]};
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    const title = event.target.innerText;
+    let newVideo = this.state.currentVideo;
+    for (let video of this.state.exampleVideoData) {
+      if (video.snippet.title === title) {
+        newVideo = video;
+        break;
+      }
+    }
+    this.setState({exampleVideoData: this.state.exampleVideoData, currentVideo: newVideo});
   }
 
   render() {
@@ -21,11 +34,11 @@ class App extends React.Component {
         <div className="row">
           <div className="col-md-7">
             {/* <div><h5><em>videoPlayer</em> view goes here</h5></div> */}
-            <VideoPlayer />
+            <VideoPlayer video={this.state.currentVideo}/>
           </div>
           <div className="col-md-5">
             {/* <div><h5><em>videoList</em> view goes here</h5></div> */}
-            <VideoList videos={this.state.exampleVideoData} />
+            <VideoList clickHandler={this.handleClick} videos={this.state.exampleVideoData} />
           </div>
         </div>
       </div>
