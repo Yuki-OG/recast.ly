@@ -5,7 +5,16 @@ $.ajaxPrefilter(function (settings, _, jqXHR) {
 });
 
 var searchYouTube = (query, callback) => {
-  // TODO
+
+  $.get('https://youtube.googleapis.com/youtube/v3/search', {
+    part: 'snippet',
+    key: YOUTUBE_API_KEY,
+    maxResults: 5,
+    q: query,
+
+  }).done(({items}) => {
+    callback(items);
+  });
 };
 
 export default searchYouTube;
